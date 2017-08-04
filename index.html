@@ -355,7 +355,11 @@
       .row(function(d) {
         d.promo = +d.promo
         d.respo = split(d.respo, /[;,]/)
-        d.children = split(d.children, /[;,]/)
+        d.children = d.fillots
+        // Split on ";" and "," unless escaped with a "\".
+        d.children = split(d.children, /(?<![\\])[;,]/)
+        // Remove all "\"s
+        d.children = _.map(d.children, function(c) { return c.replace("\\", "") })
         return d
       })
       .get(function(error, rows) {
